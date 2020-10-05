@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/general :: head"></div>
+
+<script>
+	$.when($.ready).then(function () {
+		hideShowEvaluationTypes($("#evaluationType").val());
+
+		if ($("#evaluationId").val() != 0) {
+			$("#evaluationType").prop("disabled", true);
+		}
+	});
+
+	function hideShowEvaluationTypes(selectedValue) {
+		if (selectedValue === 'SENTENCE') {
+			$("#sentenceType").show();
+			$("#textType").hide();
+		} else if (selectedValue === 'TEXT') {
+			$("#sentenceType").hide();
+			$("#textType").show();
+		}
+	}
+
+	function removeNotUsedInpunt() {
+		if ($("#evaluationType").val() === 'SENTENCE') {
+			$("#textType").remove();
+		} else if ($("#evaluationType").val() === 'TEXT') {
+			$("#sentenceType").remove();
+		}
+	}
+
+	function submitForm(form) {
+		if (confirm('Are you sure you want to send the evaluation request?')) {
+			removeNotUsedInpunt();
+			$("#evaluationForm").submit();
+		}
+	}
+</script>
+
+<body>
+
+	<!-- MENU -->
+	<header>
+		<div th:replace="fragments/general :: header(activeTab='evaluation')"></div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</header>
+
+	<div class="container page-body">
+		<div class="row">
+			<div class="col">
+				<p class="h4 mb-4">Evaluation</p>
+
+				<form th:action="@{/evaluation/save}" th:object="${evaluation}" method="POST" id="evaluationForm">
+
+					<!-- Add hidden form field to handle update -->
+					<input type="hidden" th:field="*{id}" id="evaluationId" />
+
+					<div class="form-row">
+						<div class="form-group col-lg-6">
+							<label for="title">Title</label>
+							<span th:if="${#fields.hasErrors('title')}" id="title" th:errors="*{title}" class="text-danger"></span>
+							<input type="text" th:field="*{title}" class="form-control" placeholder="Title">
+						</div>
+						
+						<div class="form-group col-lg-6">
+							<label for="evaluationType">Type</label>
+							<span th:if="${#fields.hasErrors('evaluationType')}" th:errors="*{evaluationType}" class="text-danger"></span>
+							<select th:field="*{evaluationType}" id="evaluationType" onchange="hideShowEvaluationTypes(this.value)" class="form-control" name="color">
+					    		<option th:each="code : ${T(nl.elros.textevaluator.entity.EvaluationType).values()}" 
+					        		th:value="${code}" 
+					        		th:text="${code}">
+								</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-row">
+						<div class="form-group col">
+							<label for="description">Description</label>
+							<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+							<textarea th:field="*{description}" class="form-control" rows="5" cols="30" placeholder="Description"></textarea>
+						</div>
+					</div>
+					
+					<div class="form-row" id="sentenceType">
+						<div class="form-group col">
+							<label for="text">Sentence</label>
+							<span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="text-danger"></span>
+							<input th:field="*{text}" type="text" class="form-control" placeholder="Sentence">
+						</div>
+					</div>
+					
+					<div class="form-row" id="textType">
+						<div class="form-group col">
+							<label for="text">Text</label>
+							<span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="text-danger"></span>
+							<textarea th:field="*{text}" class="form-control" rows="10" cols="30" placeholder="Text"></textarea>
+						</div>
+					</div>
+								
+					<div class="form-row">
+						<div class="form-group col">
+							<a th:href="@{/evaluation/list}" class="btn btn-danger">Cancel</a>
+						</div>
+						<div class="form-group col text-right">
+							<button type="button" class="btn btn-info col-2" onclick="submitForm()">Send</button>
+						</div>
+					</div>	
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

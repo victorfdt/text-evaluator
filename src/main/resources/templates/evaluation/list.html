@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/general :: head"></div>
+
+<body>
+	<header>
+		<div th:replace="fragments/general :: header(activeTab='evaluation')"></div>
+	</header>
+
+	<div class="container page-body">
+		<div class="row">
+			<div class="lg">
+				<h3>Evaluation List</h3>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg">
+				<table class="table table-bordered table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th>Title</th>
+							<th>Type</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="evaluation : ${evaluations}">
+
+							<td th:text="${evaluation.title}" />
+							<td th:text="${evaluation.evaluationType}" />
+
+							<td>
+								<!-- Add "update" button/link --> <a
+								th:href="@{/evaluation/updateForm(evaluationId=${evaluation.id})}"
+								class="btn btn-info btn-sm"> Update </a> <!-- Add "delete" button/link -->
+								<a th:href="@{/evaluation/delete(evaluationId=${evaluation.id})}" class="btn btn-danger btn-sm"
+								onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+									Delete </a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Add a button -->
+		<div class="row text-right">
+			<div class="col-lg">
+				<a th:href="@{/evaluation/createForm}" class="btn btn-primary btn-sm mb-3">Request Evaluation</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

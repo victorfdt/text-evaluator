@@ -9,46 +9,56 @@
 	<header>
 		<div th:replace="fragments/general :: header(activeTab='user')"></div>
 	</header>
-	
+
 	<div class="container page-body">
+		<p class="h4 mb-4">User</p>
 
-		<h3>User Directory</h3>
-		<hr>
-
-		<p class="h4 mb-4">Save User</p>
-
-		<form action="#" th:action="@{/user/save}" th:object="${user}" method="POST">
-
+		<form th:action="@{/user/save}" th:object="${user}" method="POST">
 			<!-- Add hidden form field to handle update -->
 			<input type="hidden" th:field="*{id}" />
 
-			<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
-			<input type="text" th:field="*{firstName}" class="form-control mb-4 col-4" placeholder="First name">			
+			<div class="form-row">
+				<div class="form-group col-lg-6">
+					<label>First name</label>
+					<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+					<input type="text" th:field="*{firstName}" class="form-control" placeholder="First name">
+				</div>
+				<div class="form-group col-lg-6">
+					<label>Last name</label>
+					<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></span>
+					<input type="text" th:field="*{lastName}" class="form-control" placeholder="Last name">
+				</div>
+			</div>
 
-			<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></span>
-			<input type="text" th:field="*{lastName}" class="form-control mb-4 col-4" placeholder="Last name">
+			<div class="form-row">
+				<div class="form-group col">
+					<label>E-mail</label>
+					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+					<input type="text" th:field="*{email}" class="form-control" placeholder="Email">
+				</div>
 
-			<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
-			<input type="text" th:field="*{email}" class="form-control mb-4 col-4" placeholder="Email">
+				<div class="form-group col">
+					<label>Type</label>
+					<span th:if="${#fields.hasErrors('userType')}" th:errors="*{userType}" class="text-danger"></span>
+					<select th:field="*{userType}" class="form-control" name="color">
+					    <option th:each="code : ${T(nl.elros.textevaluator.entity.UserType).values()}"
+								th:value="${code}"
+								th:text="${code}">
+					    </option>
+					</select>
+				</div>
+			</div>
 
-			<span th:if="${#fields.hasErrors('userType')}" th:errors="*{userType}" class="text-danger"></span>
-			<select th:field="*{userType}" class="form-control mb-4 col-4" name="color">
-			    <option th:each="code : ${T(nl.elros.textevaluator.entity.UserType).values()}" 
-			        	th:value="${code}" 
-			        	th:text="${code}">
-			    </option>
-			</select>
-
-			<button type="submit" class="btn btn-info col-2">Save</button>
-
+			<div class="form-row">
+				<div class="form-group col">
+					<a th:href="@{/user/list}" class="btn btn-danger">Cancel</a>
+				</div>
+				<div class="form-group col text-right">
+					<button type="submit" class="btn btn-info col-2">Save</button>
+				</div>
+			</div>
 		</form>
-
-		<hr>
-		<a th:href="@{/user/list}">Back to User List</a>
-
 	</div>
-
-
 </body>
 
 </html>
