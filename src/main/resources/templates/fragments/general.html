@@ -12,17 +12,21 @@
 					aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="collapse navbar-collapse" id="navbarCollapse">		
-								
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item" th:classappend="${activeTab == 'home' ? 'active' : ''}">
 							<a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
 						</li>
-						
+
 						<li class="nav-item" th:classappend="${activeTab == 'user' ? 'active' : ''}">
 							<a class="nav-link" th:href="@{/user/list}">User</a>
 						</li>
-						
+
+						<li class="nav-item" th:classappend="${activeTab == 'evaluation' ? 'active' : ''}">
+							<a class="nav-link" th:href="@{/evaluation/list}">Evaluation</a>
+						</li>
+
 						<li class="nav-item">
 							<a class="nav-link" href="#">About</a>
 						</li>
@@ -37,6 +41,7 @@
 	</div>
 
 	<div th:fragment="head">
+
 		<head>
 			<meta charset="utf-8">
 			<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -49,8 +54,9 @@
 				integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
 				crossorigin="anonymous">
 			<link th:href="@{/css/styles.css}" rel="stylesheet">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		</head>
-	</div>	
+	</div>
 </body>
 
 </html>

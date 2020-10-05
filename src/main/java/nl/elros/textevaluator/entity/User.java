@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
@@ -29,7 +28,8 @@ public class User {
 	@Column(name = "email")
 	@NotBlank(message = "The email is mandatory")
 	private String email;
-	
+
+	@Column(name = "type")
 	private UserType userType;
 
 	public User() {
